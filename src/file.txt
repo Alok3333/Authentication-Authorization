@@ -1,0 +1,2 @@
+paintext => aloklogin
+hash => $2b$10$vGrutDA0cOUQqElmgzYgBOl0rXa5Lt9xxkb.KDoBDjR5mtPpTI8ue
