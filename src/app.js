@@ -1,18 +1,38 @@
 const color = require("colors");
 const express = require("express");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const path = require("path");
+const userModel = require("../models/user");
 
 const PORT = 5000;
 const app = express();
 
+// Some SetUp
+app.set("view engine", "ejs");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
+
 app.get("/", (req, res) => {
-  res.send({ message: "Welcome" });
+  res.render("index");
+});
+
+app.post("/create", async (req, res) => {
+  let { username, email, password, age } = req.body;
+
+  const createdUser = await userModel.create({
+    username,
+    email,
+    password,
+    age,
+  });
+
+  res.send(createdUser);
 });
 
 app.get("/read", (req, res) => {
-  bcrypt.compare("aloklogin", "$2b$10$vGrutDA0cOUQqElmgzYgBOl0rXa5Lt9xxkb.KDoBDjR5mtPpTI8ue", function(err, result) {
-    console.log("result", result);
-  })
   res.send("<h1>Read Page</h1>");
 });
 
